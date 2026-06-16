@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { CreditCard, Truck, Lock, Shield, CheckCircle } from 'lucide-react'
@@ -12,11 +12,16 @@ export default function CheckoutPage() {
   const router = useRouter()
   const { items, getTotalPrice, clearCart } = useCartStore()
   const [loading, setLoading] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const [formData, setFormData] = useState({
     fullName: '', email: '', phone: '', address: '',
     city: '', state: '', pincode: '', paymentMethod: 'cod',
     installationRequired: false,
   })
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const target = e.target as HTMLInputElement
@@ -59,6 +64,7 @@ export default function CheckoutPage() {
     }
   }
 
+  if (!mounted) return null
   if (items.length === 0) { router.push('/cart'); return null }
 
   return (
