@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Buttons */
 .btn-primary {
-  background: linear-gradient(135deg, #3170f0, #2158e0);
+  background: linear-gradient(135deg, #5a52a3, #474181);
   color: white;
   font-weight: 600;
   font-family: var(--font-heading);
@@ -46,13 +46,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #2158e0, #1c46b8);
+  background: linear-gradient(135deg, #474181, #423c77);
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(49, 112, 240, 0.35);
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, #5a94fa, #3170f0);
+  background: linear-gradient(135deg, #7e77bb, #5a52a3);
   color: white;
   font-weight: 600;
   font-family: var(--font-heading);
@@ -64,14 +64,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-secondary:hover {
-  background: linear-gradient(135deg, #3170f0, #2158e0);
+  background: linear-gradient(135deg, #5a52a3, #474181);
   transform: translateY(-2px);
   box-shadow: 0 10px 22px rgba(49, 112, 240, 0.3);
 }
 
 .btn-outline {
-  border: 1.5px solid #3170f0;
-  color: #3170f0;
+  border: 1.5px solid #5a52a3;
+  color: #5a52a3;
   font-weight: 600;
   font-family: var(--font-heading);
   padding: 0.8rem 2rem;
@@ -82,7 +82,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-outline:hover {
-  background-color: #3170f0;
+  background-color: #5a52a3;
   color: white;
   box-shadow: 0 8px 20px rgba(49, 112, 240, 0.25);
   transform: translateY(-2px);
@@ -103,7 +103,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .input-field:focus {
-  border-color: #3170f0;
+  border-color: #5a52a3;
   box-shadow: 0 0 0 3px rgba(49, 112, 240, 0.12);
   background: white;
 }
@@ -188,9 +188,9 @@ h1, h2, h3, h4, h5, h6 {
   background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #8fb8fd;
+  background: #aba7d3;
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3170f0;
+  background: #5a52a3;
 }

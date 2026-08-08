@@ -20,7 +20,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     toast.success(`${product.name} added to cart`, {
       style: {
         borderRadius: '10px',
-        background: '#2158e0',
+        background: '#474181',
         color: '#fff',
       },
     })
