@@ -3,6 +3,8 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import WhatsAppButton from '@/components/WhatsAppButton'
+import MobileBottomNav from '@/components/MobileBottomNav'
 
 export const metadata: Metadata = {
   title: 'Akyoto Secure | Professional Security Solutions India',
@@ -24,10 +26,12 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
-        <main className="min-h-screen">
+        <main className="min-h-screen pb-16 md:pb-0">
           {children}
         </main>
         <Footer />
+        <WhatsAppButton />
+        <MobileBottomNav />
         <Toaster
           position="top-right"
           toastOptions={{
