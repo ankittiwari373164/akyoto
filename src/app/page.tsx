@@ -67,7 +67,7 @@ export default function HomePage() {
         .from('products')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(6)
+        .limit(9)
       if (error) throw error
       setFeaturedProducts(data || [])
     } catch {
@@ -196,7 +196,7 @@ export default function HomePage() {
           (matches PGST's PG-107 / PG-108 / PG-A04 model picker)
       ═══════════════════════════════════════════ */}
       {featuredProducts.length > 0 && (
-        <section className="py-24 bg-white">
+        <section className="py-16 bg-white">
           <div className="container mx-auto px-6">
             <div className="text-center mb-14 max-w-xl mx-auto">
               <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-3 block">Explore</span>
@@ -267,7 +267,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════
           FEATURED PRODUCTS — clean white grid
       ═══════════════════════════════════════════ */}
-      <section className="py-24 bg-white">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
             <div>
