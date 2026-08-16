@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import {
-  ArrowRight, Star, Award, Wrench, Truck, Phone, ChevronLeft, ChevronRight, Bell,
+  ArrowRight, Star, Award, Wrench, Truck, Phone, ChevronLeft, ChevronRight, Bell, CheckCircle,
 } from 'lucide-react'
 import { supabase, Product } from '@/lib/supabase'
 import { categories } from '@/lib/categories'
@@ -40,6 +40,47 @@ const whyUs = [
   { icon: Truck, title: 'Pan-India Delivery', desc: 'Fast delivery to all major cities with real-time tracking and careful handling.' },
   { icon: Phone, title: '24/7 Support', desc: 'Round-the-clock technical support, on-site service within 4 hours in metro areas.' },
 ]
+
+// Deep-dive content for the category spotlight section — why each category
+// matters, where it's typically used, and the case for considering it.
+const categorySpotlights: Record<string, { why: string; uses: string[] }> = {
+  'security-alarm-system': {
+    why: 'The first line of defence against break-ins. A monitored alarm system deters intruders before they get in, and alerts you and your security team the moment a door, window, or motion zone is breached.',
+    uses: ['Homes and apartments left unattended for long hours', 'Retail stores and showrooms after closing time', 'Offices, warehouses and factory perimeters'],
+  },
+  'gas-alarm': {
+    why: 'LPG and piped gas leaks are silent until they aren\u2019t. A gas alarm detects a leak within seconds of it starting, giving you time to ventilate and shut off supply before it becomes a fire or explosion risk.',
+    uses: ['Residential and commercial kitchens', 'Restaurants and hostel mess kitchens', 'Industrial units storing or piping LPG/PNG'],
+  },
+  'carbon-monoxide-alarm': {
+    why: 'Carbon monoxide has no smell, colour or taste — by the time you notice symptoms, exposure is often already dangerous. A CO alarm is the only reliable way to catch it early.',
+    uses: ['Homes with gas heaters, geysers or generators', 'Basements and enclosed parking areas', 'Hotels and guesthouses with in-room heating'],
+  },
+  'smoke-alarm': {
+    why: 'Fire spreads fast, but smoke travels faster. A smoke alarm buys you the critical extra minutes needed to evacuate safely and call for help before flames take hold.',
+    uses: ['Bedrooms, hallways and staircases', 'Commercial buildings and office floors', 'Server rooms and electrical panel areas'],
+  },
+  'composite-alarm': {
+    why: 'One device, multiple hazards. Composite alarms combine smoke, heat and sometimes gas sensing in a single unit — simpler to install and maintain than running separate systems for each risk.',
+    uses: ['Smaller homes and apartments wanting full coverage', 'Rental properties needing quick, low-cost compliance', 'Utility rooms with mixed fire and gas risk'],
+  },
+  'audible-and-visual-alarm': {
+    why: 'An alert only works if someone notices it. Sirens and strobes make sure an alarm is impossible to miss — even in a noisy factory floor or for someone who is hearing-impaired.',
+    uses: ['Warehouses and manufacturing floors', 'Buildings with hearing-impaired occupants', 'Outdoor perimeters where visible deterrence matters'],
+  },
+  'wireless-intelligent-doorbell': {
+    why: 'See and speak to whoever is at your door from anywhere, before you open it. It\u2019s one of the simplest upgrades for both everyday convenience and deterring porch theft or unwanted visitors.',
+    uses: ['Homes wanting to screen visitors remotely', 'Gated communities and independent houses', 'Small offices and clinics with walk-in visitors'],
+  },
+  'door-magnet-sensor': {
+    why: 'The most fundamental building block of any alarm system — a magnetic contact instantly knows the moment a door or window is opened, whether you\u2019re home, at work, or away.',
+    uses: ['Entry doors, windows and balcony access points', 'Cabinets and drawers storing valuables', 'Server racks and restricted-access cupboards'],
+  },
+  'intelligent-single-product': {
+    why: 'Not every device fits a single category — access control, networking gear and standalone smart devices still need to work together. This is where they come in, tying the rest of your system into one ecosystem.',
+    uses: ['Biometric and RFID access control at entry points', 'Networking hardware for connected security systems', 'Standalone smart devices for specific site needs'],
+  },
+}
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
@@ -338,6 +379,71 @@ export default function HomePage() {
                   </div>
                   <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
                   <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          CATEGORY SPOTLIGHT — deep dive per category:
+          why it matters + where it's used, alternating layout
+      ═══════════════════════════════════════════ */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16 max-w-xl mx-auto">
+            <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-3 block">Know Your Options</span>
+            <h2 className="section-title mb-4">Every category, and why it matters</h2>
+            <p className="section-subtitle">A closer look at what each category covers, where it's typically used, and why it's worth considering for your property.</p>
+          </div>
+
+          <div className="space-y-16">
+            {categories.map((cat, i) => {
+              const Icon = cat.icon
+              const spotlight = categorySpotlights[cat.slug]
+              if (!spotlight) return null
+              const reversed = i % 2 === 1
+              return (
+                <motion.div
+                  key={cat.slug}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.5 }}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-center ${i !== categories.length - 1 ? 'pb-16 border-b border-slate-100' : ''}`}
+                >
+                  {/* Icon panel */}
+                  <div className={`${reversed ? 'lg:order-2' : ''}`}>
+                    <div className="bg-primary-50/60 border border-primary-100 rounded-2xl p-12 flex items-center justify-center h-full min-h-[240px]">
+                      <div className="w-24 h-24 rounded-full bg-white shadow-sm flex items-center justify-center">
+                        <Icon size={40} className="text-blue-600" strokeWidth={1.5} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Text panel */}
+                  <div className={`${reversed ? 'lg:order-1' : ''}`}>
+                    <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-2 block">
+                      Category {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-3">{cat.name}</h3>
+                    <p className="text-slate-600 leading-relaxed mb-5">{spotlight.why}</p>
+
+                    <p className="text-sm font-semibold text-slate-800 mb-3">Commonly used in:</p>
+                    <ul className="space-y-2 mb-6">
+                      {spotlight.uses.map((use) => (
+                        <li key={use} className="flex items-start gap-2.5 text-sm text-slate-600">
+                          <CheckCircle size={16} className="text-blue-500 flex-shrink-0 mt-0.5" />
+                          <span>{use}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Link href={`/shop?category=${encodeURIComponent(cat.name)}`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+                      Shop {cat.name} <ArrowRight size={14} />
+                    </Link>
+                  </div>
                 </motion.div>
               )
             })}
