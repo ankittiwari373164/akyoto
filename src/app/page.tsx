@@ -273,7 +273,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════
           FEATURED PRODUCTS — soft lavender tint (on-theme, not stark white)
       ═══════════════════════════════════════════ */}
-      <section className="py-16 bg-primary-50/70">
+      <section className="py-16 bg-primary-100">
         <div className="container mx-auto px-6">
           <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
             <div>
