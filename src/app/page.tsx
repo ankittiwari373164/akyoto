@@ -203,71 +203,77 @@ export default function HomePage() {
               <h2 className="section-title mb-0">Pick a model to explore</h2>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8">
-              {/* Big preview */}
-              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-10 flex flex-col">
-                <div className="relative flex-1 min-h-[280px] flex items-center justify-center mb-6">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={featuredProducts[showcaseIndex]?.id}
-                      initial={{ opacity: 0, scale: 0.96 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.96 }}
-                      transition={{ duration: 0.3 }}
-                      className="w-full h-full flex items-center justify-center"
-                    >
-                      {featuredProducts[showcaseIndex]?.image_url ? (
-                        <img
-                          src={featuredProducts[showcaseIndex].image_url}
-                          alt={featuredProducts[showcaseIndex].name}
-                          className="max-h-64 object-contain"
-                        />
-                      ) : (
-                        <div className="w-40 h-40 rounded-2xl bg-white border border-slate-200 flex items-center justify-center">
-                          <Bell size={48} strokeWidth={1} className="text-slate-300" />
-                        </div>
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-1">{featuredProducts[showcaseIndex]?.name}</h3>
-                <p className="text-slate-500 text-sm mb-5 line-clamp-2">{featuredProducts[showcaseIndex]?.description}</p>
-                <Link href={`/product/${featuredProducts[showcaseIndex]?.slug}`}>
-                  <button className="btn-primary">Learn More</button>
-                </Link>
-              </div>
+            {(() => {
+              const showcaseProducts = featuredProducts.slice(0, 6)
+              const activeIndex = Math.min(showcaseIndex, showcaseProducts.length - 1)
+              return (
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 items-stretch">
+                  {/* Big preview */}
+                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-10 flex flex-col h-full">
+                    <div className="relative flex-1 min-h-[280px] flex items-center justify-center mb-6">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={showcaseProducts[activeIndex]?.id}
+                          initial={{ opacity: 0, scale: 0.96 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.96 }}
+                          transition={{ duration: 0.3 }}
+                          className="w-full h-full flex items-center justify-center"
+                        >
+                          {showcaseProducts[activeIndex]?.image_url ? (
+                            <img
+                              src={showcaseProducts[activeIndex].image_url}
+                              alt={showcaseProducts[activeIndex].name}
+                              className="max-h-64 object-contain"
+                            />
+                          ) : (
+                            <div className="w-40 h-40 rounded-2xl bg-white border border-slate-200 flex items-center justify-center">
+                              <Bell size={48} strokeWidth={1} className="text-slate-300" />
+                            </div>
+                          )}
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-1">{showcaseProducts[activeIndex]?.name}</h3>
+                    <p className="text-slate-500 text-sm mb-5 line-clamp-2">{showcaseProducts[activeIndex]?.description}</p>
+                    <Link href={`/product/${showcaseProducts[activeIndex]?.slug}`}>
+                      <button className="btn-primary">Learn More</button>
+                    </Link>
+                  </div>
 
-              {/* Thumbnail grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 content-start">
-                {featuredProducts.map((product, i) => (
-                  <button
-                    key={product.id}
-                    onMouseEnter={() => setShowcaseIndex(i)}
-                    onClick={() => setShowcaseIndex(i)}
-                    className={`bg-white border rounded-xl p-5 flex flex-col items-center gap-3 transition-all text-center ${
-                      i === showcaseIndex ? 'border-blue-500 shadow-md shadow-blue-100' : 'border-slate-100 hover:border-blue-200'
-                    }`}
-                  >
-                    {product.image_url ? (
-                      <img src={product.image_url} alt={product.name} className="h-16 object-contain" />
-                    ) : (
-                      <div className="h-16 w-16 rounded-lg bg-slate-50 flex items-center justify-center">
-                        <Bell size={22} strokeWidth={1.5} className="text-slate-300" />
-                      </div>
-                    )}
-                    <span className="text-xs font-medium text-slate-600 line-clamp-1">{product.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+                  {/* Thumbnail grid — 2 columns x 3 rows, stretched to fill the same height/width as the preview panel */}
+                  <div className="grid grid-cols-2 grid-rows-3 gap-4 h-full">
+                    {showcaseProducts.map((product, i) => (
+                      <button
+                        key={product.id}
+                        onMouseEnter={() => setShowcaseIndex(i)}
+                        onClick={() => setShowcaseIndex(i)}
+                        className={`w-full h-full bg-white border rounded-xl p-5 flex flex-col items-center justify-center gap-3 transition-all text-center ${
+                          i === activeIndex ? 'border-blue-500 shadow-md shadow-blue-100' : 'border-slate-100 hover:border-blue-200'
+                        }`}
+                      >
+                        {product.image_url ? (
+                          <img src={product.image_url} alt={product.name} className="h-16 object-contain" />
+                        ) : (
+                          <div className="h-16 w-16 rounded-lg bg-slate-50 flex items-center justify-center">
+                            <Bell size={22} strokeWidth={1.5} className="text-slate-300" />
+                          </div>
+                        )}
+                        <span className="text-xs font-medium text-slate-600 line-clamp-1">{product.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )
+            })()}
           </div>
         </section>
       )}
 
       {/* ═══════════════════════════════════════════
-          FEATURED PRODUCTS — clean white grid
+          FEATURED PRODUCTS — soft lavender tint (on-theme, not stark white)
       ═══════════════════════════════════════════ */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-primary-50/70">
         <div className="container mx-auto px-6">
           <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
             <div>
