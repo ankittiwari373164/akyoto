@@ -390,15 +390,15 @@ export default function HomePage() {
           CATEGORY SPOTLIGHT — deep dive per category:
           why it matters + where it's used, alternating layout
       ═══════════════════════════════════════════ */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16 max-w-xl mx-auto">
-            <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-3 block">Know Your Options</span>
-            <h2 className="section-title mb-4">Every category, and why it matters</h2>
-            <p className="section-subtitle">A closer look at what each category covers, where it's typically used, and why it's worth considering for your property.</p>
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6 max-w-5xl">
+          <div className="text-center mb-12 max-w-lg mx-auto">
+            <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-2 block">Know Your Options</span>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">Every category, and why it matters</h2>
+            <p className="text-slate-500 text-sm leading-relaxed">A closer look at what each category covers, where it's typically used, and why it's worth considering for your property.</p>
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-10">
             {categories.map((cat, i) => {
               const Icon = cat.icon
               const spotlight = categorySpotlights[cat.slug]
@@ -407,41 +407,41 @@ export default function HomePage() {
               return (
                 <motion.div
                   key={cat.slug}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-80px' }}
                   transition={{ duration: 0.5 }}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-center ${i !== categories.length - 1 ? 'pb-16 border-b border-slate-100' : ''}`}
+                  className={`grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-8 items-center ${i !== categories.length - 1 ? 'pb-10 border-b border-slate-100' : ''}`}
                 >
                   {/* Icon panel */}
                   <div className={`${reversed ? 'lg:order-2' : ''}`}>
-                    <div className="bg-primary-50/60 border border-primary-100 rounded-2xl p-12 flex items-center justify-center h-full min-h-[240px]">
-                      <div className="w-24 h-24 rounded-full bg-white shadow-sm flex items-center justify-center">
-                        <Icon size={40} className="text-blue-600" strokeWidth={1.5} />
+                    <div className="bg-primary-50/60 border border-primary-100 rounded-xl p-7 flex items-center justify-center h-full min-h-[160px]">
+                      <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center">
+                        <Icon size={28} className="text-blue-600" strokeWidth={1.5} />
                       </div>
                     </div>
                   </div>
 
                   {/* Text panel */}
                   <div className={`${reversed ? 'lg:order-1' : ''}`}>
-                    <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-2 block">
+                    <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-1.5 block">
                       Category {String(i + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="text-2xl font-bold text-slate-900 mb-3">{cat.name}</h3>
-                    <p className="text-slate-600 leading-relaxed mb-5">{spotlight.why}</p>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{cat.name}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed mb-4">{spotlight.why}</p>
 
-                    <p className="text-sm font-semibold text-slate-800 mb-3">Commonly used in:</p>
-                    <ul className="space-y-2 mb-6">
+                    <p className="text-xs font-semibold text-slate-800 mb-2">Commonly used in:</p>
+                    <ul className="space-y-1.5 mb-4">
                       {spotlight.uses.map((use) => (
-                        <li key={use} className="flex items-start gap-2.5 text-sm text-slate-600">
-                          <CheckCircle size={16} className="text-blue-500 flex-shrink-0 mt-0.5" />
+                        <li key={use} className="flex items-start gap-2 text-xs text-slate-600">
+                          <CheckCircle size={14} className="text-blue-500 flex-shrink-0 mt-0.5" />
                           <span>{use}</span>
                         </li>
                       ))}
                     </ul>
 
-                    <Link href={`/shop?category=${encodeURIComponent(cat.name)}`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
-                      Shop {cat.name} <ArrowRight size={14} />
+                    <Link href={`/shop?category=${encodeURIComponent(cat.name)}`} className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+                      Shop {cat.name} <ArrowRight size={13} />
                     </Link>
                   </div>
                 </motion.div>
