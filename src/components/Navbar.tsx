@@ -82,7 +82,7 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-1">
               <Link
                 href="/"
-                className="px-4 py-2 text-slate-600 hover:text-primary-700 font-medium text-sm rounded-lg hover:bg-primary-50 transition-all duration-200"
+                className="px-4 py-2 text-slate-600 hover:text-white font-medium text-sm rounded-lg hover:bg-primary-500 transition-all duration-200"
               >
                 Home
               </Link>
@@ -91,7 +91,7 @@ export default function Navbar() {
               <div className="relative group">
                 <Link
                   href="/shop"
-                  className="px-4 py-2 text-slate-600 hover:text-primary-700 font-medium text-sm rounded-lg hover:bg-primary-50 transition-all duration-200 inline-block"
+                  className="px-4 py-2 text-slate-600 hover:text-white font-medium text-sm rounded-lg hover:bg-primary-500 transition-all duration-200 inline-block"
                 >
                   Products
                 </Link>
@@ -132,7 +132,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 text-slate-600 hover:text-primary-700 font-medium text-sm rounded-lg hover:bg-primary-50 transition-all duration-200"
+                  className="px-4 py-2 text-slate-600 hover:text-white font-medium text-sm rounded-lg hover:bg-primary-500 transition-all duration-200"
                 >
                   {link.label}
                 </Link>
