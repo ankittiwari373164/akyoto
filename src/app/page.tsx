@@ -394,74 +394,75 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          CATEGORY SPOTLIGHT — light pill-tab selector + single-line detail strip
-          Compact replacement for the old plain card grid.
+          CATEGORY SPOTLIGHT — minimal underline tabs + clean detail row
+          Classy, editorial replacement for the old plain card grid.
       ═══════════════════════════════════════════ */}
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-10 max-w-xl mx-auto">
-            <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-2 block">Know Your Options</span>
-            <h2 className="section-title mb-0">Browse by category</h2>
+          <div className="text-center mb-12 max-w-xl mx-auto">
+            <span className="text-blue-600 font-semibold text-xs tracking-[0.2em] uppercase mb-3 block">Know Your Options</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Browse by category</h2>
           </div>
 
           {activeCategory && activeSpotlight && (
-            <div className="max-w-4xl mx-auto">
-              {/* Pill tabs */}
-              <div className="flex flex-wrap justify-center gap-2 mb-8">
+            <div className="max-w-3xl mx-auto">
+              {/* Underline tab nav */}
+              <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 border-b border-slate-200 pb-4 mb-12">
                 {spotlightCategories.map((cat, i) => {
                   const isActive = i === categoryIndex
                   return (
                     <button
                       key={cat.slug}
                       onClick={() => setCategoryIndex(i)}
-                      className={`text-xs md:text-sm font-medium px-4 py-2 rounded-full border transition-colors ${
-                        isActive
-                          ? 'bg-blue-600 border-blue-600 text-white'
-                          : 'bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-600'
+                      className={`relative text-sm font-medium pb-1 transition-colors ${
+                        isActive ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'
                       }`}
                     >
                       {cat.name}
+                      {isActive && (
+                        <motion.span
+                          layoutId="category-underline"
+                          className="absolute left-0 right-0 -bottom-[17px] h-px bg-slate-900"
+                        />
+                      )}
                     </button>
                   )
                 })}
               </div>
 
-              {/* Single detail strip */}
+              {/* Detail content — centered, generous whitespace */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeCategory.slug}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
+                  exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.25 }}
-                  className="bg-slate-50 border border-slate-100 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6"
+                  className="text-center"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                    {ActiveCategoryIcon && (
-                      <ActiveCategoryIcon size={22} className="text-blue-600" strokeWidth={1.5} />
-                    )}
-                  </div>
-
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-slate-900 mb-1.5">{activeCategory.name}</h3>
-                    <p className="text-slate-500 text-sm leading-relaxed mb-3">
-                      {activeSpotlight.why}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {activeSpotlight.uses.map((use) => (
-                        <span
-                          key={use}
-                          className="text-[11px] text-slate-500 bg-white border border-slate-200 rounded-full px-2.5 py-1"
-                        >
-                          {use}
-                        </span>
-                      ))}
+                  {ActiveCategoryIcon && (
+                    <div className="w-11 h-11 rounded-full border border-slate-200 flex items-center justify-center mx-auto mb-6">
+                      <ActiveCategoryIcon size={18} className="text-slate-700" strokeWidth={1.5} />
                     </div>
+                  )}
+
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{activeCategory.name}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed max-w-xl mx-auto mb-6">
+                    {activeSpotlight.why}
+                  </p>
+
+                  <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 text-xs text-slate-400 mb-8">
+                    {activeSpotlight.uses.map((use, i) => (
+                      <span key={use} className="flex items-center gap-3">
+                        {i > 0 && <span className="w-1 h-1 rounded-full bg-slate-300" />}
+                        {use}
+                      </span>
+                    ))}
                   </div>
 
-                  <Link href={`/shop?category=${encodeURIComponent(activeCategory.name)}`} className="shrink-0">
-                    <button className="inline-flex items-center gap-1.5 text-blue-600 font-semibold text-sm hover:gap-2.5 transition-all whitespace-nowrap">
-                      Explore <ArrowRight size={14} />
+                  <Link href={`/shop?category=${encodeURIComponent(activeCategory.name)}`}>
+                    <button className="inline-flex items-center gap-2 text-slate-900 font-semibold text-sm border-b border-slate-900 pb-0.5 hover:gap-3 transition-all">
+                      Explore {activeCategory.name} <ArrowRight size={14} />
                     </button>
                   </Link>
                 </motion.div>
