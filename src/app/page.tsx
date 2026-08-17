@@ -87,6 +87,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [slide, setSlide] = useState(0)
   const [showcaseIndex, setShowcaseIndex] = useState(0)
+  const [categoryIndex, setCategoryIndex] = useState(0)
 
   useEffect(() => {
     fetchFeaturedProducts()
@@ -117,6 +118,12 @@ export default function HomePage() {
       setLoading(false)
     }
   }
+
+  // Categories that have spotlight content, used by the category spotlight section below.
+  const spotlightCategories = categories.filter((cat) => categorySpotlights[cat.slug])
+  const activeCategory = spotlightCategories[Math.min(categoryIndex, spotlightCategories.length - 1)]
+  const activeSpotlight = activeCategory ? categorySpotlights[activeCategory.slug] : undefined
+  const ActiveCategoryIcon = activeCategory?.icon
 
   return (
     <div className="font-sans bg-white">
@@ -387,51 +394,100 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          CATEGORY CARDS — compact, visual grid layout
+          CATEGORY SPOTLIGHT — numbered index + animated detail panel
+          Dark, editorial-style section that replaces the old plain card grid.
       ═══════════════════════════════════════════ */}
-      <section className="py-16 bg-gradient-to-b from-white to-slate-50">
+      <section className="py-24 bg-slate-950">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-12 max-w-2xl mx-auto">
-            <span className="text-blue-600 font-semibold text-xs tracking-widest uppercase mb-2 block">Know Your Options</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Browse by category</h2>
+          <div className="mb-16 max-w-2xl">
+            <span className="text-blue-400 font-semibold text-xs tracking-widest uppercase mb-2 block">Know Your Options</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Browse by category</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((cat, i) => {
-              const Icon = cat.icon
-              const spotlight = categorySpotlights[cat.slug]
-              if (!spotlight) return null
-              return (
-                <motion.div
-                  key={cat.slug}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05, duration: 0.4 }}
-                >
-                  <Link href={`/shop?category=${encodeURIComponent(cat.name)}`}>
-                    <div className="group bg-white border border-slate-100 rounded-xl p-6 h-full flex flex-col hover:shadow-lg hover:border-blue-200 transition-all duration-300">
-                      {/* Icon */}
-                      <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
-                        <Icon size={24} className="text-blue-600" strokeWidth={1.5} />
-                      </div>
+          {activeCategory && activeSpotlight && (
+            <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-0 border-t border-white/10">
+              {/* Numbered index list */}
+              <div className="border-r border-white/10">
+                {spotlightCategories.map((cat, i) => {
+                  const isActive = i === categoryIndex
+                  return (
+                    <button
+                      key={cat.slug}
+                      onMouseEnter={() => setCategoryIndex(i)}
+                      onClick={() => setCategoryIndex(i)}
+                      className={`w-full text-left px-6 py-5 border-b border-white/10 flex items-center gap-4 transition-colors group ${
+                        isActive ? 'bg-white/5' : 'hover:bg-white/[0.03]'
+                      }`}
+                    >
+                      <span className={`text-xs font-mono tabular-nums transition-colors ${
+                        isActive ? 'text-blue-400' : 'text-white/30'
+                      }`}>
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <span className={`text-sm font-medium flex-1 transition-colors ${
+                        isActive ? 'text-white' : 'text-white/50 group-hover:text-white/80'
+                      }`}>
+                        {cat.name}
+                      </span>
+                      <ArrowRight
+                        size={14}
+                        className={`transition-all ${
+                          isActive ? 'text-blue-400 translate-x-0 opacity-100' : '-translate-x-2 opacity-0'
+                        }`}
+                      />
+                    </button>
+                  )
+                })}
+              </div>
 
-                      {/* Title */}
-                      <h3 className="font-bold text-slate-900 mb-2 text-base">{cat.name}</h3>
-
-                      {/* Brief description */}
-                      <p className="text-slate-500 text-xs leading-relaxed mb-4 flex-1">{spotlight.why}</p>
-
-                      {/* CTA */}
-                      <div className="flex items-center gap-1 text-blue-600 font-semibold text-xs group-hover:gap-2 transition-all">
-                        Explore <ArrowRight size={12} />
-                      </div>
+              {/* Detail panel */}
+              <div className="relative overflow-hidden min-h-[420px] flex items-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeCategory.slug}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -24 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className="px-8 md:px-14 py-12 w-full"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-8">
+                      {ActiveCategoryIcon && (
+                        <ActiveCategoryIcon size={26} className="text-blue-400" strokeWidth={1.5} />
+                      )}
                     </div>
-                  </Link>
-                </motion.div>
-              )
-            })}
-          </div>
+
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{activeCategory.name}</h3>
+                    <p className="text-white/60 leading-relaxed mb-8 max-w-xl text-[15px]">
+                      {activeSpotlight.why}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-10">
+                      {activeSpotlight.uses.map((use) => (
+                        <span
+                          key={use}
+                          className="text-xs text-white/70 bg-white/5 border border-white/10 rounded-full px-3.5 py-1.5"
+                        >
+                          {use}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link href={`/shop?category=${encodeURIComponent(activeCategory.name)}`}>
+                      <button className="inline-flex items-center gap-2 bg-white text-slate-900 font-semibold text-sm py-3 px-6 rounded-full hover:bg-blue-50 transition-colors">
+                        Explore {activeCategory.name} <ArrowRight size={15} />
+                      </button>
+                    </Link>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* subtle background number watermark */}
+                <span className="absolute -right-6 bottom-0 text-[220px] font-black text-white/[0.03] leading-none select-none pointer-events-none">
+                  {String(categoryIndex + 1).padStart(2, '0')}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
